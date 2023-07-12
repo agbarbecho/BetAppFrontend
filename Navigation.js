@@ -16,11 +16,12 @@ function MyTabs() {
                 tabBarActiveTintColor: 'purple',
             }}
         >
+            
             <Tab.Screen
-                name="Home"
+                name="Inicio"
                 component={Home}
             />
-            <Tab.Screen name="Profile" component={CreateProfile} />
+            <Tab.Screen name="Pets" component={CreateProfile} />
 
 
         </Tab.Navigator>
