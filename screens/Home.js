@@ -7,9 +7,9 @@ const Home = () => {
         <View>
             <Text
             style={{
-                fontSize:30,
+                fontSize:50,
                 textAlign:"center",
-                marginTop: "20%"
+                marginTop: "10%"
             }}
             >Home</Text>
         </View>

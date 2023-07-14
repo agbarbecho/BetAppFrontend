@@ -1,19 +1,19 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const CreateProfile = () => {
+const Pet = () => {
 
     return (
         <View>
             <Text
             style={{
-                fontSize:50,
+                fontSize:30,
                 textAlign:"center",
                 marginTop: "20%"
             }}
-            >CreateProfile</Text>
+            >Pet</Text>
         </View>
     );
 }
 
-export default CreateProfile;
+export default Pet;

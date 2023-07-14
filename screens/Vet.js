@@ -1,19 +1,19 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const CreateProfile = () => {
+const Vet = () => {
 
     return (
         <View>
             <Text
             style={{
-                fontSize:50,
+                fontSize:30,
                 textAlign:"center",
                 marginTop: "20%"
             }}
-            >CreateProfile</Text>
+            >Vet</Text>
         </View>
     );
 }
 
-export default CreateProfile;
+export default Vet;
