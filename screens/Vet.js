@@ -7,7 +7,7 @@ const Vet = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Vet</Text>
+      <Text style={styles.title}>Ingresar datos Veterinario</Text>
 
       <TextInput
         placeholder="Nombre"

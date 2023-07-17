@@ -20,7 +20,7 @@ function MyTabs() {
             iconName = focused ? "md-medical" : "md-medical-outline";
           } else if (route.name === "User") {
             iconName = focused ? "person" : "person-outline";
-          } else if (route.name === "Pet") { 
+          } else if (route.name === "Pet") {
             iconName = focused ? "paw" : "paw-outline";
           }
 
@@ -28,9 +28,14 @@ function MyTabs() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#54ccd4',
-        inactiveTintColor: 'gray',
-        showLabel: false,
+        activeTintColor: "#ffffff",
+        inactiveTintColor: "#ffffff",
+        style: {
+          backgroundColor: "#54ccd4",
+        },
+        tabStyle: {
+          backgroundColor: "#54ccd4",
+        },
       }}
     >
       <Tab.Screen name="Vet" component={Vet} />
