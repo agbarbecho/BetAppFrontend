@@ -31,10 +31,10 @@ function MyTabs() {
         activeTintColor: "#ffffff",
         inactiveTintColor: "#ffffff",
         style: {
-          backgroundColor: "#54ccd4",
+          backgroundColor: "#45b6b1",
         },
         tabStyle: {
-          backgroundColor: "#54ccd4",
+          backgroundColor: "#45b6b1",
         },
       }}
     >
