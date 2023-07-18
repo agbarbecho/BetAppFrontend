@@ -1,14 +1,30 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
+import { createAPI, pet } from "../service/ServicePet";
 
 const Pet = () => {
   const [nombre, setNombre] = useState("");
   const [raza, setRaza] = useState("");
   const [especie, setEspecie] = useState("");
 
+  const handleSaveData = async () => {
+    try {
+      const response = await createAPI(pet, data);
+      // Lógica adicional después de guardar los datos
+
+      // Restablecer los campos después de guardar
+      setNombre('');
+      setRaza('');
+      setEspecie('');
+    } catch (error) {
+      // Manejo de errores en caso de que la solicitud falle
+      console.log('Error al crear perfil de la mascota:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-         <Image source={require("../assets/Logo.jpg")} style={styles.logo} />
+      <Image source={require("../assets/Logo.jpg")} style={styles.logo} />
       <Text style={styles.title}>Ingresar datos de la Mascota</Text>
 
       <View style={styles.inputContainer}>
@@ -40,6 +56,10 @@ const Pet = () => {
           style={styles.input}
         />
       </View>
+
+      <TouchableOpacity style={styles.button} onPress={handleSaveData}>
+        <Text style={styles.buttonText}>Guardar</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -76,6 +96,18 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#E6C627",
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
 
