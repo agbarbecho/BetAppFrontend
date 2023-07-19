@@ -1,9 +1,31 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-
+import { vet } from "../service/ServiceVet";
 const Vet = () => {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
+  const handleSaveData = async () => {
+    try {
+      const response = await createAPI(vet, data);
+      // Lógica adicional después de guardar los datos
+
+      // Restablecer los campos después de guardar
+      setNombre("");
+      setApellido("");
+    } catch (error) {
+      // Manejo de errores en caso de que la solicitud falle
+      console.log("Error al crear perfil del veterinario:", error);
+    }
+  };
+
+    
+  const handleCreatePet = () => {
+    // Lógica para crear la mascota
+    // Puedes agregar tu implementación aquí o llamar a una función externa
+    // que maneje la creación de la mascota
+
+    console.log("Veterinario creado:", nombre, apellido);
+  };
 
   return (
     <View style={styles.container}>
@@ -28,8 +50,14 @@ const Vet = () => {
           onChangeText={setApellido}
           style={styles.input}
         />
-      </View>
+        
+      <TouchableOpacity style={styles.button} onPress={handleSaveData}>
+        <Text style={styles.buttonText}>Guardar</Text>
+      </TouchableOpacity>
+
     </View>
+      </View>
+    
   );
 }
 
@@ -66,6 +94,18 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#E6C627",
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
 
