@@ -13,13 +13,22 @@ const Pet = () => {
       // Lógica adicional después de guardar los datos
 
       // Restablecer los campos después de guardar
-      setNombre('');
-      setRaza('');
-      setEspecie('');
+      setNombre("");
+      setRaza("");
+      setEspecie("");
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
-      console.log('Error al crear perfil de la mascota:', error);
+      console.log("Error al crear perfil de la mascota:", error);
     }
+  };
+
+    
+  const handleCreatePet = () => {
+    // Lógica para crear la mascota
+    // Puedes agregar tu implementación aquí o llamar a una función externa
+    // que maneje la creación de la mascota
+
+    console.log("Mascota creada:", nombre, raza, especie);
   };
 
   return (
@@ -60,6 +69,7 @@ const Pet = () => {
       <TouchableOpacity style={styles.button} onPress={handleSaveData}>
         <Text style={styles.buttonText}>Guardar</Text>
       </TouchableOpacity>
+
     </View>
   );
 };
@@ -72,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   logo: {
-    width:250,
+    width: 250,
     height: 200,
     marginBottom: 20,
   },
