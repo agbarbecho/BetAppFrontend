@@ -2,17 +2,17 @@ import axios from 'axios';
 
 export const user = 'http://localhost:8081/vet';
 
-export const getAPI = async (url) => {
+export const getAPIVet = async (url) => {
     const response = await axios.get(url);
     return response.data;
 };
 
-export const createAPI = async (url, arg) => {
-    const response = await axios.post(url, arg);
+export const createAPIVet = async (url, arg) => {
+    const response = await axios.post("register" , body);
     return response.data;
 };
 
-export const updateAPI = async (url, arg) => {
+export const updateAPIVet = async (url, arg) => {
     const response = await axios.put(url, arg);
     return response.data;
 };

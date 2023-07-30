@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { createAPI, pet } from "../service/ServicePet";
+import { createAPIPet, pet } from "../service/ServicePet";
 
 const Pet = () => {
   const [nombre, setNombre] = useState("");
@@ -9,27 +9,25 @@ const Pet = () => {
 
   const handleSaveData = async () => {
     try {
-      const response = await createAPI(pet, data);
-      // Lógica adicional después de guardar los datos
-
-      // Restablecer los campos después de guardar
+      const data = {
+        nombre: nombre,
+        raza: raza,
+        especie: especie,
+      };
+      await createAPIPet(pet,data);
+      // Limpiar los campos después de guardar la mascota
       setNombre("");
       setRaza("");
       setEspecie("");
+
+      // Lógica adicional después de crear la mascota (si es necesario)
+      console.log("Mascota creada:", data);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.log("Error al crear perfil de la mascota:", error);
     }
   };
 
-    
-  const handleCreatePet = () => {
-    // Lógica para crear la mascota
-    // Puedes agregar tu implementación aquí o llamar a una función externa
-    // que maneje la creación de la mascota
-
-    console.log("Mascota creada:", nombre, raza, especie);
-  };
 
   return (
     <View style={styles.container}>

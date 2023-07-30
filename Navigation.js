@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import User from "./screens/User";
+import Client from "./screens/Client";
 import Pet from "./screens/Pet";
 import Vet from "./screens/Vet";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,7 +18,7 @@ function MyTabs() {
 
           if (route.name === "Vet") {
             iconName = focused ? "md-medical" : "md-medical-outline";
-          } else if (route.name === "User") {
+          } else if (route.name === "Clientr") {
             iconName = focused ? "person" : "person-outline";
           } else if (route.name === "Pet") {
             iconName = focused ? "paw" : "paw-outline";
@@ -39,7 +39,7 @@ function MyTabs() {
       }}
     >
       <Tab.Screen name="Vet" component={Vet} />
-      <Tab.Screen name="User" component={User} />
+      <Tab.Screen name="Client" component={Client} />
       <Tab.Screen name="Pet" component={Pet} />
     </Tab.Navigator>
   );

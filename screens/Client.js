@@ -1,39 +1,35 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { user } from "../service/ServiceUser";
+import { createAPIClient, client } from "../service/ServiceClient";
 
-const User = () => {
+const Client= () => {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
 
-  const handleSaveData = async () => {
-    try {
-      const response = await createAPI(user, data);
-      // Lógica adicional después de guardar los datos
-
-      // Restablecer los campos después de guardar
+    const handleSaveData = async () => {
+      try {
+        const data = {
+          nombre: nombre,
+          apellido: apellido,
+          direccion: direccion,
+          telefono: telefono,
+        };
+        await createAPIClient(client,data);
+         // Limpiar los campos después de guardar la mascota
       setNombre("");
       setApellido("");
       setDireccion("");
-      setDireccion("");
       setTelefono("");
+ 
+      // Lógica adicional después de crear la mascota (si es necesario)
+      console.log("Cliente creado:", data);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
-      console.log("Error al crear perfil del usuario:", error);
+      console.log("Error al crear perfil del client:", error);
     }
   };
-
-    
-  const handleCreatePet = () => {
-    // Lógica para crear la mascota
-    // Puedes agregar tu implementación aquí o llamar a una función externa
-    // que maneje la creación de la mascota
-
-    console.log("Usario creado:", nombre, apellido, direccion, telefono);
-  };
-
 
   return (
     <View style={styles.container}>
@@ -139,4 +135,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default User;
+export default Client;

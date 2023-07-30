@@ -1,32 +1,29 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { vet } from "../service/ServiceVet";
-const Vet = () => {
+import { createAPIVet, vet } from "../service/ServiceVet";
+
+const Vet = () => {  
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const handleSaveData = async () => {
+
     try {
-      const response = await createAPI(vet, data);
-      // Lógica adicional después de guardar los datos
-
-      // Restablecer los campos después de guardar
-      setNombre("");
-      setApellido("");
-    } catch (error) {
-      // Manejo de errores en caso de que la solicitud falle
-      console.log("Error al crear perfil del veterinario:", error);
-    }
-  };
-
-    
-  const handleCreatePet = () => {
-    // Lógica para crear la mascota
-    // Puedes agregar tu implementación aquí o llamar a una función externa
-    // que maneje la creación de la mascota
-
-    console.log("Veterinario creado:", nombre, apellido);
-  };
-
+      const data = {
+        nombre: nombre,
+        apellido: apellido,
+      
+      };
+      await createAPIVet(vet,data);
+       // Limpiar los campos después de guardar la mascota
+    setNombre("");
+    setApellido("");
+    // Lógica adicional después de crear la mascota (si es necesario)
+    console.log("Veterinario de atencion a mascota  creado:", data);
+  } catch (error) {
+    // Manejo de errores en caso de que la solicitud falle
+    console.log("Error al crear perfil del veterinario:", error);
+  }
+};
   return (
     <View style={styles.container}>
         <Image source={require("../assets/Logo.jpg")} style={styles.logo} />
