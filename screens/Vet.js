@@ -23,6 +23,7 @@ const Vet = () => {
     // Manejo de errores en caso de que la solicitud falle
     console.log("Error al crear perfil del veterinario:", error);
   }
+  
 };
   return (
     <View style={styles.container}>
