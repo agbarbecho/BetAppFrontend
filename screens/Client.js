@@ -10,7 +10,7 @@ const Client= () => {
 
     const handleSaveData = async () => {
       try {
-        const data = {
+        const data = {      
           nombre: nombre,
           apellido: apellido,
           direccion: direccion,
