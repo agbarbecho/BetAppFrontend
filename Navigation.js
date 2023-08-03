@@ -4,17 +4,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import Client from "./screens/Client";
 import Pet from "./screens/Pet";
 import Vet from "./screens/Vet";
-import Profiles from "./screens/Profiles"; // Agrega la importación de la pantalla Profiles
+
 import { Ionicons } from "@expo/vector-icons";
-import { createNativeStackNavigator } from "@react-navigation/native-stack"; // Importa el Stack Navigator
+import { createNativeStackNavigator } from "@react-navigation/native-stack"; 
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator(); // Crea el Stack Navigator
+const Stack = createNativeStackNavigator(); 
 
 function Screens() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profiles" component={Profiles} />
+
       <Stack.Screen name="Vet" component={Vet} />
       <Stack.Screen name="Client" component={Client} />
       <Stack.Screen name="Pet" component={Pet} />
@@ -25,7 +25,7 @@ function Screens() {
 function MyTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Vet" // Cambia esto para que inicie en ProfileScreen
+      initialRouteName="Vet" 
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -36,9 +36,8 @@ function MyTabs() {
             iconName = focused ? "person" : "person-outline";
           } else if (route.name === "Pet") {
             iconName = focused ? "paw" : "paw-outline";
-          } else if (route.name === "ProfileScreen") {
-            iconName = focused ? "list-circle" : "list-circle-outline";
-          }
+          } 
+          
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -57,7 +56,7 @@ function MyTabs() {
       <Tab.Screen name="Vet" component={Vet} /> 
       <Tab.Screen name="Client" component={Client} />
       <Tab.Screen name="Pet" component={Pet} />
-      <Tab.Screen name="Profiles" component={Profiles} /> 
+   
     </Tab.Navigator>
   );
 }

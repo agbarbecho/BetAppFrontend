@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { createAPIClient, client } from "../service/ServiceClient";
+import { createAPI, client } from "../service/ServiceClient";
 
 const Client= () => {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
+ 
 
     const handleSaveData = async () => {
       try {
-        const data = {      
+        const data = {       
           nombre: nombre,
           apellido: apellido,
           direccion: direccion,
           telefono: telefono,
         };
-        await createAPIClient(client,data);
+        await createAPI(client,data);
          // Limpiar los campos después de guardar la mascota
       setNombre("");
       setApellido("");
@@ -28,6 +29,7 @@ const Client= () => {
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.log("Error al crear perfil del client:", error);
+      console.log(error.mesage)
     }
   };
 

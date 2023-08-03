@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { createAPIVet, vet } from "../service/ServiceVet";
+import { createAPI, vet } from "../service/ServiceClient";
 
 const Vet = () => {  
   const [nombre, setNombre] = useState('');
@@ -13,7 +13,7 @@ const Vet = () => {
         apellido: apellido,
       
       };
-      await createAPIVet(vet,data);
+      await createAPI(vet,data);
        // Limpiar los campos después de guardar la mascota
     setNombre("");
     setApellido("");

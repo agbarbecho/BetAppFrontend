@@ -1,37 +1,54 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { createAPIPet, pet } from "../service/ServicePet";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Button } from "react-native";
+import { createAPI, pet, getAPI } from "../service/ServiceClient";
 
 const Pet = () => {
   const [nombre, setNombre] = useState("");
   const [raza, setRaza] = useState("");
   const [especie, setEspecie] = useState("");
+  const [modalVisible, setModalVisible] = useState(false)
+  const [listadoMascotas, setListadoMascotas] = useState([])
 
   const handleSaveData = async () => {
     try {
       const data = {
-        nombre: nombre,
-        raza: raza,
-        especie: especie,
+        name: nombre,
+        breed: raza,
+        species: especie,
       };
-      await createAPIPet(pet,data);
+      const nuevaMascota = await createAPI('http://localhost:8081/pet', data)
       // Limpiar los campos después de guardar la mascota
       setNombre("");
       setRaza("");
       setEspecie("");
 
       // Lógica adicional después de crear la mascota (si es necesario)
-      console.log("Mascota creada:", data);
+      console.log("Mascota creada:", nuevaMascota);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.log("Error al crear perfil de la mascota:", error);
     }
   };
 
+  const handleOpenModal = async () => {
+    try {
+      const listadoTmp = await getAPI('http://localhost:8081/pet')
+      setListadoMascotas(listadoTmp)
+    } catch (error) {
+      console.log("Error al recuperar listado:", error);
+
+    }
+    setModalVisible(true);
+  }
+
 
   return (
     <View style={styles.container}>
       <Image source={require("../assets/Logo.jpg")} style={styles.logo} />
+      <Button
+        onPress={handleOpenModal}
+        title="Ver listado"
+      />
       <Text style={styles.title}>Ingresar datos de la Mascota</Text>
 
       <View style={styles.inputContainer}>
@@ -67,6 +84,40 @@ const Pet = () => {
       <TouchableOpacity style={styles.button} onPress={handleSaveData}>
         <Text style={styles.buttonText}>Guardar</Text>
       </TouchableOpacity>
+
+
+
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>Modal</Text>
+            <Text>
+              {
+                listadoMascotas.map((mascota) =>
+                (
+                  <View key={mascota.id} style={styles.containerMap}>
+                    <Text style={styles.text}>Nombre: {mascota.name}</Text>
+                    <Text style={styles.text}>Raza: {mascota.breed}</Text>
+                    <Text style={styles.text}>Especie: {mascota.species}</Text>
+                    <Text style={styles.text}>Cliente ID: {mascota.clientId}</Text>
+                  </View>
+                ))
+              }
+            </Text>
+            <Button
+              onPress={() => { setModalVisible(false); }}
+              title="Cerrar modal"
+            />
+          </View>
+        </View>
+      </Modal>
 
     </View>
   );
@@ -116,6 +167,44 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  }, containerMap: {
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  text: {
+    marginBottom: 5,
   },
 });
 
