@@ -12,12 +12,12 @@ const Client= () => {
     const handleSaveData = async () => {
       try {
         const data = {       
-          nombre: nombre,
-          apellido: apellido,
-          direccion: direccion,
-          telefono: telefono,
+          name: nombre,
+          lastname: apellido,
+          address: direccion,
+          phone: telefono,
         };
-        await createAPI(client,data);
+        const nuevoCliente = await createAPI('http://localhost:8081/client', data)
          // Limpiar los campos después de guardar la mascota
       setNombre("");
       setApellido("");
@@ -25,7 +25,7 @@ const Client= () => {
       setTelefono("");
  
       // Lógica adicional después de crear la mascota (si es necesario)
-      console.log("Cliente creado:", data);
+      console.log("Cliente creado:", nuevoCliente);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.log("Error al crear perfil del client:", error);
@@ -36,12 +36,12 @@ const Client= () => {
   return (
     <View style={styles.container}>
         <Image source={require("../assets/Logo.jpg")} style={styles.logo} />
-      <Text style={styles.title}>Ingresar datos de Usuario</Text>
+      <Text style={styles.title}>Datos del Cliente</Text>
 
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Nombre</Text>
         <TextInput
-          placeholder="Ingrese su nombre"
+          placeholder="Ingrese el nombre"
           value={nombre}
           onChangeText={setNombre}
           style={styles.input}
@@ -51,7 +51,7 @@ const Client= () => {
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Apellido</Text>
         <TextInput
-          placeholder="Ingrese su apellido"
+          placeholder="Ingrese el apellido"
           value={apellido}
           onChangeText={setApellido}
           style={styles.input}
@@ -61,7 +61,7 @@ const Client= () => {
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Dirección</Text>
         <TextInput
-          placeholder="Ingrese su dirección"
+          placeholder="Ingrese la dirección"
           value={direccion}
           onChangeText={setDireccion}
           style={styles.input}
@@ -71,7 +71,7 @@ const Client= () => {
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Teléfono</Text>
         <TextInput
-          placeholder="Ingrese su número de teléfono"
+          placeholder="Ingrese el numero de teléfono"
           value={telefono}
           onChangeText={setTelefono}
           style={styles.input}

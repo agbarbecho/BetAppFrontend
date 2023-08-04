@@ -9,31 +9,33 @@ const Vet = () => {
 
     try {
       const data = {
-        nombre: nombre,
-        apellido: apellido,
+        name: nombre,
+       lastname: apellido,
       
       };
-      await createAPI(vet,data);
+      const nuevoVeterinario = await createAPI('http://localhost:8081/vet', data)
        // Limpiar los campos después de guardar la mascota
     setNombre("");
     setApellido("");
+
     // Lógica adicional después de crear la mascota (si es necesario)
-    console.log("Veterinario de atencion a mascota  creado:", data);
+    console.log("Veterinario creado:", nuevoVeterinario);
   } catch (error) {
     // Manejo de errores en caso de que la solicitud falle
     console.log("Error al crear perfil del veterinario:", error);
+    console.log(error.mesage)
   }
   
 };
   return (
     <View style={styles.container}>
         <Image source={require("../assets/Logo.jpg")} style={styles.logo} />
-      <Text style={styles.title}>Ingrese datos Veterinario</Text>
+      <Text style={styles.title}>Datos del Veterinario</Text>
 
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Nombre</Text>
         <TextInput
-          placeholder="Ingrese su nombre"
+          placeholder="Ingrese el nombre"
           value={nombre}
           onChangeText={setNombre}
           style={styles.input}
@@ -43,7 +45,7 @@ const Vet = () => {
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Apellido</Text>
         <TextInput
-          placeholder="Ingrese su apellido"
+          placeholder="Ingrese el apellido"
           value={apellido}
           onChangeText={setApellido}
           style={styles.input}

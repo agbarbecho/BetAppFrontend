@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Button, ScrollView } from "react-native";
 import { createAPI, pet, getAPI } from "../service/ServiceClient";
+import { FlatList } from "react-native";
 
 const Pet = () => {
   const [nombre, setNombre] = useState("");
@@ -16,13 +17,14 @@ const Pet = () => {
         breed: raza,
         species: especie,
       };
+      console.log("data", data)
       const nuevaMascota = await createAPI('http://localhost:8081/pet', data)
       // Limpiar los campos después de guardar la mascota
       setNombre("");
       setRaza("");
       setEspecie("");
 
-      // Lógica adicional después de crear la mascota (si es necesario)
+      // Lógica adicional después de crear la mascota
       console.log("Mascota creada:", nuevaMascota);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
@@ -33,9 +35,19 @@ const Pet = () => {
   const handleOpenModal = async () => {
     try {
       const listadoTmp = await getAPI('http://localhost:8081/pet')
+      /* listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0])
+      listadoTmp.push(listadoTmp[0]) */
       setListadoMascotas(listadoTmp)
     } catch (error) {
       console.log("Error al recuperar listado:", error);
+      console.log("r", error.message)
 
     }
     setModalVisible(true);
@@ -62,16 +74,6 @@ const Pet = () => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Raza</Text>
-        <TextInput
-          placeholder="Ingrese la raza de la mascota"
-          value={raza}
-          onChangeText={setRaza}
-          style={styles.input}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Especie</Text>
         <TextInput
           placeholder="Ingrese la especie de la mascota"
@@ -81,10 +83,21 @@ const Pet = () => {
         />
       </View>
 
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>Raza</Text>
+        <TextInput
+          placeholder="Ingrese la raza de la mascota"
+          value={raza}
+          onChangeText={setRaza}
+          style={styles.input}
+        />
+      </View>
+
+
+
       <TouchableOpacity style={styles.button} onPress={handleSaveData}>
         <Text style={styles.buttonText}>Guardar</Text>
       </TouchableOpacity>
-
 
 
 
@@ -93,36 +106,42 @@ const Pet = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
+          setModalVisible(false);
+        }}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>Modal</Text>
-            <Text>
-              {
-                listadoMascotas.map((mascota) =>
-                (
-                  <View key={mascota.id} style={styles.containerMap}>
-                    <Text style={styles.text}>Nombre: {mascota.name}</Text>
-                    <Text style={styles.text}>Raza: {mascota.breed}</Text>
-                    <Text style={styles.text}>Especie: {mascota.species}</Text>
-                    <Text style={styles.text}>Cliente ID: {mascota.clientId}</Text>
+            <Text style={styles.modalTitle}>Listado de Mascotas</Text>
+            <View style={{ flex: 1, maxHeight: "70vh", width: "100%", marginBottom: "5px", padding: "5px", borderWidth: "2px", borderRadius: "4px" }}>
+
+              <FlatList
+                data={listadoMascotas}
+                keyExtractor={(mascota) => mascota.id.toString()}
+
+                renderItem={({ item }) => (
+                  <View style={styles.containerMap}>
+                    <Text style={styles.text}>Nombre: {item.name}</Text>
+                    <Text style={styles.text}>Raza: {item.breed}</Text>
+                    <Text style={styles.text}>Especie: {item.species}</Text>
+                    <Text style={styles.text}>Cliente ID: {item.clientId}</Text>
                   </View>
-                ))
-              }
-            </Text>
+                )}
+                ItemSeparatorComponent={() => <View style={styles.separator} />}
+              />
+            </View>
+
             <Button
-              onPress={() => { setModalVisible(false); }}
-              title="Cerrar modal"
+              onPress={() => {
+                setModalVisible(false);
+              }}
+              title="Cerrar Lista"
             />
           </View>
         </View>
       </Modal>
-
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -176,11 +195,11 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "#F8F8F8",
     borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -188,23 +207,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  }, containerMap: {
-    flexDirection: 'column',
-    backgroundColor: 'white',
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
   },
-  text: {
-    marginBottom: 5,
+
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+
+  separator: {
+    height: 1,
+    width: "100%",
+    backgroundColor: "#E6C627",
+    marginVertical: 8,
   },
 });
 
