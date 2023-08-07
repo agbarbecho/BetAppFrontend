@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Button, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Button, Modal , ScrollView} from "react-native";
 import { createAPI, pet, getAPI } from "../service/ServiceClient";
+import { useNavigation } from '@react-navigation/native';
 import { FlatList } from "react-native";
 
 const Pet = () => {
   const [nombre, setNombre] = useState("");
-  const [raza, setRaza] = useState("");
   const [especie, setEspecie] = useState("");
+  const [raza, setRaza] = useState(""); 
   const [modalVisible, setModalVisible] = useState(false)
   const [listadoMascotas, setListadoMascotas] = useState([])
+
+
+  const navigation = useNavigation();
 
   const handleSaveData = async () => {
     try {
@@ -17,33 +21,31 @@ const Pet = () => {
         breed: raza,
         species: especie,
       };
-      console.log("data", data)
+      console.log("data",data)
+
+
       const nuevaMascota = await createAPI('http://localhost:8081/pet', data)
       // Limpiar los campos después de guardar la mascota
       setNombre("");
-      setRaza("");
       setEspecie("");
+      setRaza("");
+      
 
-      // Lógica adicional después de crear la mascota
+      // Lógica adicional después de crear la mascota (si es necesario)
       console.log("Mascota creada:", nuevaMascota);
     } catch (error) {
       // Manejo de errores en caso de que la solicitud falle
       console.log("Error al crear perfil de la mascota:", error);
+      
     }
   };
 
   const handleOpenModal = async () => {
     try {
       const listadoTmp = await getAPI('http://localhost:8081/pet')
-      /* listadoTmp.push(listadoTmp[0])
       listadoTmp.push(listadoTmp[0])
       listadoTmp.push(listadoTmp[0])
-      listadoTmp.push(listadoTmp[0])
-      listadoTmp.push(listadoTmp[0])
-      listadoTmp.push(listadoTmp[0])
-      listadoTmp.push(listadoTmp[0])
-      listadoTmp.push(listadoTmp[0])
-      listadoTmp.push(listadoTmp[0]) */
+    
       setListadoMascotas(listadoTmp)
     } catch (error) {
       console.log("Error al recuperar listado:", error);
@@ -52,16 +54,16 @@ const Pet = () => {
     }
     setModalVisible(true);
   }
-
-
-  return (
+return (
     <View style={styles.container}>
       <Image source={require("../assets/Logo.jpg")} style={styles.logo} />
+
       <Button
         onPress={handleOpenModal}
         title="Ver listado"
       />
-      <Text style={styles.title}>Ingresar datos de la Mascota</Text>
+ 
+      <Text style={styles.title}>Datos de la mascota</Text>
 
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Nombre</Text>
@@ -72,7 +74,7 @@ const Pet = () => {
           style={styles.input}
         />
       </View>
-
+      
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>Especie</Text>
         <TextInput
@@ -92,38 +94,42 @@ const Pet = () => {
           style={styles.input}
         />
       </View>
-
-
-
+      
       <TouchableOpacity style={styles.button} onPress={handleSaveData}>
         <Text style={styles.buttonText}>Guardar</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vet')}>
+        <Text style={styles.buttonText}>Siguiente</Text>
+      </TouchableOpacity>
 
 
-      <Modal
+
+     <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(false);
         }}
-      >
+      ><ScrollView>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalTitle}>Listado de Mascotas</Text>
-            <View style={{ flex: 1, maxHeight: "70vh", width: "100%", marginBottom: "5px", padding: "5px", borderWidth: "2px", borderRadius: "4px" }}>
+            
 
               <FlatList
                 data={listadoMascotas}
-                keyExtractor={(mascota) => mascota.id.toString()}
+                keyExtractor={(cliente) => cliente.id.toString()}
 
                 renderItem={({ item }) => (
                   <View style={styles.containerMap}>
+                    <Text style={styles.sectionTitle}>Mascota</Text>
                     <Text style={styles.text}>Nombre: {item.name}</Text>
                     <Text style={styles.text}>Raza: {item.breed}</Text>
                     <Text style={styles.text}>Especie: {item.species}</Text>
                     <Text style={styles.text}>Cliente ID: {item.clientId}</Text>
+                    
                   </View>
                 )}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -137,11 +143,14 @@ const Pet = () => {
               title="Cerrar Lista"
             />
           </View>
-        </View>
+        </ScrollView>
       </Modal>
     </View>
   );
 };
+    
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -150,7 +159,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   logo: {
-    width: 250,
+    width:250,
     height: 200,
     marginBottom: 20,
   },
@@ -221,6 +230,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#E6C627",
     marginVertical: 8,
   },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+    
 });
 
 export default Pet;
